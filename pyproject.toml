@@ -12,16 +12,20 @@ license = "Apache-2.0"
 keywords = ["eventiq", "fastapi"]
 authors = [{ name = "RaRhAeu", email = "rarha_eu@protonmail.com" }]
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Programming Language :: Python",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Framework :: AsyncIO",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = ["fastapi", "eventiq==0.3.0rc1"]
+dependencies = ["fastapi", "eventiq>=1.0.0"]
 
 [project.urls]
 Documentation = "https://github.com/asynq-io/eventiq-fastapi#readme"
@@ -33,6 +37,7 @@ path = "eventiq_fastapi/__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
+    "httpx",
     "pytest",
     "pyyaml",
     "pytest-cov",
@@ -40,10 +45,8 @@ dependencies = [
     "pytest-sugar",
     "asgi-lifespan",
     "ruff",
-    "mypy>=1.0.0",
+    "mypy",
     "bandit",
-    "fastapi",
-    "eventiq",
 ]
 
 [tool.hatch.envs.default.scripts]
