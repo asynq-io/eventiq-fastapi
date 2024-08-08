@@ -1,0 +1,128 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "eventiq-fastapi"
+dynamic = ["version"]
+description = "FastAPI integration for eventiq"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+keywords = ["eventiq", "fastapi"]
+authors = [{ name = "RaRhAeu", email = "rarha_eu@protonmail.com" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = ["fastapi", "eventiq==0.3.0rc1"]
+
+[project.urls]
+Documentation = "https://github.com/asynq-io/eventiq-fastapi#readme"
+Issues = "https://github.com/asynq-io/eventiq-fastapi/issues"
+Source = "https://github.com/asynq-io/eventiq-fastapi"
+
+[tool.hatch.version]
+path = "eventiq_fastapi/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest",
+    "pyyaml",
+    "pytest-cov",
+    "pytest-asyncio",
+    "pytest-sugar",
+    "asgi-lifespan",
+    "ruff",
+    "mypy>=1.0.0",
+    "bandit",
+    "fastapi",
+    "eventiq",
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+check = [
+    "ruff check ./eventiq_fastapi",
+    "ruff format --check ./eventiq_fastapi",
+    "mypy {args:eventiq_fastapi tests examples}",
+    "bandit -r ./eventiq_fastapi",
+]
+
+[tool.coverage.run]
+source_pkgs = ["eventiq_fastapi", "tests"]
+branch = true
+parallel = true
+omit = ["eventiq_fastapi/__about__.py"]
+
+[tool.coverage.paths]
+package = ["eventiq_fastapi"]
+tests = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=./eventiq_fastapi"
+testpaths = ["./tests"]
+asyncio_mode = "auto"
+filterwarnings = "ignore::DeprecationWarning"
+
+[tool.pyright]
+venvPath = ".venv"
+venv = "eventiq-fastapi"
+
+[tool.mypy]
+python_version = "3.9"
+# disallow_untyped_defs = true
+# disallow_incomplete_defs = true
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+warn_no_return = false
+warn_unused_ignores = true
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py39"
+
+line-length = 88
+indent-width = 4
+[tool.ruff.lint]
+select = ["ALL"]
+
+ignore = [
+    "A001",
+    "A002",
+    "ARG002",
+    "ARG004",
+    "ANN401",
+    "B008",    # do not perform function calls in argument defaults
+    "BLE001",
+    "COM812",
+    "D",
+    "E501",    # line too long
+    "FA100",
+    "FBT001",
+    "FBT002",
+    "FBT003",
+    "ISC001",
+    "N818",
+    "PLR0913",
+    "PLR2004",
+    "PTH123",
+    "S108",
+
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "ANN001", "ANN201", "SLF001"]
+"examples/*" = ["S101", "ANN001", "ANN201", "INP001", "T201"]
+[tool.bandit]
+skips = ['B101']
